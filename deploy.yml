@@ -1,0 +1,27 @@
+- hosts: web
+  tasks:
+    - name: Ensure Docker is installed
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Pull Docker image from DockerHub
+      docker_image:
+        name: nafisaanbl/notes-app
+        tag: latest
+        source: pull
+
+    - name: Run Docker container
+      docker_container:
+        name: django_notes_app
+        image: nafisaanbl/notes-app:latest
+        state: started
+        ports:
+          - "8000:8000"
