@@ -14,14 +14,14 @@
 
     - name: Pull Docker image from DockerHub
       docker_image:
-        name: nafisaanbl/notes-app
+        name: nisasalvia/notesproject
         tag: latest
         source: pull
 
     - name: Run Docker container
       docker_container:
         name: django_notes_app
-        image: nafisaanbl/notes-app:latest
+        image: nisasalvia/notesproject:latest
         state: started
         ports:
           - "8000:8000"
