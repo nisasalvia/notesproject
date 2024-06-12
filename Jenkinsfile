@@ -11,7 +11,8 @@ pipeline {
         stage("Build"){
             steps {
                 echo "Building the image"
-                bat "docker build -t notes-app ."
+                /*bat "docker build -t notes-app ."*/
+                dockerImage = docker.build("notes-app")
             }
         }
         stage("Push to Docker Hub"){
@@ -32,7 +33,7 @@ pipeline {
             steps {
                 script {
                     // Run ansible-playbook to deploy on GCP instance
-                    sh 'ansible-playbook -i inventory deploy.yml'
+                    bat 'ansible-playbook -i inventory deploy.yml'
                 
             }
         }
