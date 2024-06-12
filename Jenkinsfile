@@ -28,10 +28,11 @@ pipeline {
                 }
             }
         }
-        stage("Deploy"){
+        stage("Deploy to GCP") {
             steps {
-                echo "Deploying the container"
-                bat "docker-compose down && docker-compose up -d"
+                script {
+                    // Run ansible-playbook to deploy on GCP instance
+                    sh 'ansible-playbook -i inventory deploy.yml'
                 
             }
         }
