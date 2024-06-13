@@ -35,11 +35,19 @@ pipeline {
             steps {
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: 'ecdsa-sha2-nistp256', keyFileVariable: 'identity')]) {
-                        sh """
-                        scp -o StrictHostKeyChecking=no -i $identity inventory deploy.yml nafisa102003@34.125.180.116:~
-                        ssh -o StrictHostKeyChecking=no -i $identity nafisa102003@34.125.180.116 '
-                        ansible-playbook -i ~/inventory ~/deploy.yml'
-                        """
+                        def remote = [:]
+                        remote.user = 'nafisa102003'
+                        remote.host = '34.125.180.116'
+                        remote.identityFile = identity
+                        remote.allowAnyHosts = true
+                        sshCommand remote: remote, command: 'ansible-playbook -i inventory deploy.yml'
+
+                    // withCredentials([sshUserPrivateKey(credentialsId: 'ecdsa-sha2-nistp256', keyFileVariable: 'identity')]) {
+                    //     sh """
+                    //     scp -o StrictHostKeyChecking=no -i $identity inventory deploy.yml nafisa102003@34.125.180.116:~
+                    //     ssh -o StrictHostKeyChecking=no -i $identity nafisa102003@34.125.180.116 '
+                    //     ansible-playbook -i ~/inventory ~/deploy.yml'
+                    //     """
                     // bat 'ansible-playbook -i inventory deploy.yml'
                     }
                 }
