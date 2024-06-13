@@ -34,13 +34,14 @@ pipeline {
         stage("Deploy to GCP") {
             steps {
                 script {
-                    withCredentials([sshUserPrivateKey(credentialsId: 'ecdsa-sha2-nistp256', keyFileVariable: 'identity')]) {
-                        def remote = [:]
-                        remote.user = 'nafisa102003'
-                        remote.host = '34.125.180.116'
-                        remote.identityFile = identity
-                        remote.allowAnyHosts = true
-                        sshCommand remote: remote, command: 'ansible-playbook -i inventory deploy.yml'
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ecdsa-sha2-nistp256', keyFileVariable: 'identity', passphraseVariable: 'pso2024')]) {
+                        bat """
+                        set IDENTITY=%identity%
+                        pscp -batch -i %IDENTITY% -r inventory nafisa102003@34.125.180.116:~/
+                        pscp -batch -i %IDENTITY% -r deploy.yml nafisa102003@34.125.180.116:~/
+                        plink -batch -i %IDENTITY% nafisa102003@34.125.180.116 "ansible-playbook -i ~/inventory ~/deploy.yml"
+                        """
+                    }
 
                     // withCredentials([sshUserPrivateKey(credentialsId: 'ecdsa-sha2-nistp256', keyFileVariable: 'identity')]) {
                     //     sh """
@@ -49,7 +50,6 @@ pipeline {
                     //     ansible-playbook -i ~/inventory ~/deploy.yml'
                     //     """
                     // bat 'ansible-playbook -i inventory deploy.yml'
-                    }
                 }
             }
         }
