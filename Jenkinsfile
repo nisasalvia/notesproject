@@ -42,8 +42,8 @@ pipeline {
                         """
                     // bat 'ansible-playbook -i inventory deploy.yml'
                 
+                }
             }
         }
     }
-}
 }
