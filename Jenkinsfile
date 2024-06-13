@@ -12,7 +12,9 @@ pipeline {
             steps {
                 echo "Building the image"
                 /*bat "docker build -t notes-app ."*/
-                dockerImage = docker.build("notes-app")
+                script {
+                dockerImage = docker.build("notes-app") 
+                }
             }
         }
         stage("Push to Docker Hub"){
@@ -32,8 +34,13 @@ pipeline {
         stage("Deploy to GCP") {
             steps {
                 script {
-                    // Run ansible-playbook to deploy on GCP instance
-                    bat 'ansible-playbook -i inventory deploy.yml'
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ecdsa-sha2-nistp256', keyFileVariable: 'identity')]) {
+                        sh """
+                        scp -o StrictHostKeyChecking=no -i $identity inventory deploy.yml nafisa102003@34.125.180.116:~
+                        ssh -o StrictHostKeyChecking=no -i $identity nafisa102003@34.125.180.116 '
+                        ansible-playbook -i ~/inventory ~/deploy.yml'
+                        """
+                    // bat 'ansible-playbook -i inventory deploy.yml'
                 
             }
         }
