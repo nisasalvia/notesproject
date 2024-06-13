@@ -34,20 +34,20 @@ pipeline {
         stage("Deploy to GCP") {
             steps {
                 script {
-                    withCredentials([sshUserPrivateKey(credentialsId: 'ecdsa-sha2-nistp256', keyFileVariable: 'identity', passphraseVariable: 'pso2024')]) {
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ssh-rsa', keyFileVariable: 'identity', passphraseVariable: 'pso2024')]) {
                         bat """
                         @echo off
                         setlocal enabledelayedexpansion
 
                         REM Transfer inventory and deploy.yml using scp
-                        scp -i %IDENTITY% -o StrictHostKeyChecking=no inventory nafisa102003@34.125.180.116:~/
-                        scp -i %IDENTITY% -o StrictHostKeyChecking=no deploy.yml nafisa102003@34.125.180.116:~/
+                        scp -i %IDENTITY% -o StrictHostKeyChecking=no inventory nafisa102003@34.19.111.242:~/
+                        scp -i %IDENTITY% -o StrictHostKeyChecking=no deploy.yml nafisa102003@34.19.111.242:~/
 
                         REM Execute ansible-playbook using ssh
-                        ssh -i %IDENTITY% -o StrictHostKeyChecking=no nafisa102003@34.125.180.116 "ansible-playbook -i ~/inventory ~/deploy.yml"
+                        ssh -i %IDENTITY% -o StrictHostKeyChecking=no nafisa102003@34.19.111.242 "ansible-playbook -i ~/inventory ~/deploy.yml"
                         """
                         // set IDENTITY=%identity%
-                        // pscp -batch -i %IDENTITY% -r inventory nafisa102003@34.125.180.116:~/
+                        // pscp -batch -i %IDENTITY% -r inventory nafisa102003@34.19.111.242:~/
                         // pscp -batch -i %IDENTITY% -r deploy.yml nafisa102003@34.125.180.116:~/
                         // plink -batch -i %IDENTITY% nafisa102003@34.125.180.116 "ansible-playbook -i ~/inventory ~/deploy.yml"
                         // """
