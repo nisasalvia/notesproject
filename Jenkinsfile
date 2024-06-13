@@ -36,11 +36,21 @@ pipeline {
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: 'ecdsa-sha2-nistp256', keyFileVariable: 'identity', passphraseVariable: 'pso2024')]) {
                         bat """
-                        set IDENTITY=%identity%
-                        pscp -batch -i %IDENTITY% -r inventory nafisa102003@34.125.180.116:~/
-                        pscp -batch -i %IDENTITY% -r deploy.yml nafisa102003@34.125.180.116:~/
-                        plink -batch -i %IDENTITY% nafisa102003@34.125.180.116 "ansible-playbook -i ~/inventory ~/deploy.yml"
+                        @echo off
+                        setlocal enabledelayedexpansion
+
+                        REM Transfer inventory and deploy.yml using scp
+                        scp -i %IDENTITY% -o StrictHostKeyChecking=no inventory nafisa102003@34.125.180.116:~/
+                        scp -i %IDENTITY% -o StrictHostKeyChecking=no deploy.yml nafisa102003@34.125.180.116:~/
+
+                        REM Execute ansible-playbook using ssh
+                        ssh -i %IDENTITY% -o StrictHostKeyChecking=no nafisa102003@34.125.180.116 "ansible-playbook -i ~/inventory ~/deploy.yml"
                         """
+                        // set IDENTITY=%identity%
+                        // pscp -batch -i %IDENTITY% -r inventory nafisa102003@34.125.180.116:~/
+                        // pscp -batch -i %IDENTITY% -r deploy.yml nafisa102003@34.125.180.116:~/
+                        // plink -batch -i %IDENTITY% nafisa102003@34.125.180.116 "ansible-playbook -i ~/inventory ~/deploy.yml"
+                        // """
                     }
 
                     // withCredentials([sshUserPrivateKey(credentialsId: 'ecdsa-sha2-nistp256', keyFileVariable: 'identity')]) {
