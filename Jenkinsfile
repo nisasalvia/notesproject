@@ -11,7 +11,10 @@ pipeline {
         stage("Build"){
             steps {
                 echo "Building the image"
-                bat "docker build -t notes-app ."
+                // bat "docker build -t notes-app ."
+                script {
+                    dockerImage = docker.build("notes-app", "--network host .")
+                }
             }
         }
         stage("Push to Docker Hub"){
