@@ -8,7 +8,7 @@ pipeline {
                 git url:"https://github.com/nisasalvia/notesproject.git", branch: "master"
             }
         }
-        stage("Build"){
+        stage("Build") {
             steps {
                 echo "Building the image"
                 // bat "docker build -t notes-app ."
@@ -34,7 +34,7 @@ pipeline {
        stage("Deploy to AWS") {
             steps {
                 script {
-                    withCredentials([sshUserPrivateKey(credentialsId: 'ecdsa-sha2-nistp256', keyFileVariable: 'identity')]) {
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ssh-ec2', keyFileVariable: 'identity')]) {
                         sh """
                         # Transfer inventory and deploy.yml using scp
                         scp -i ${identity} -o StrictHostKeyChecking=no inventory ec2-user@47.129.46.47:~/
