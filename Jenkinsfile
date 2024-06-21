@@ -35,7 +35,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: 'ssh-ec2', keyFileVariable: 'identity')]) {
-                        sh """
+                        bat """
                         # Transfer inventory and deploy.yml using scp
                         scp -i ${identity} -o StrictHostKeyChecking=no inventory ec2-user@47.129.46.47:~/
                         scp -i ${identity} -o StrictHostKeyChecking=no deploy.yml ec2-user@47.129.46.47:~/
