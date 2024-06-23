@@ -35,6 +35,14 @@ pipeline {
             steps {
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: 'ssh-ec2', keyFileVariable: 'identity')]) {
+                       // Debug step to check connectivity
+                        bat """
+                        @echo off
+                        echo Testing SSH connectivity to EC2 instance
+                        ssh -i %identity% -o StrictHostKeyChecking=no ec2-user@47.129.46.47 "echo Connected successfully"
+                        """
+                        
+                        // Proceed with deployment if connectivity test passes
                         bat """
                         @echo off
                         REM Transfer inventory and deploy.yml using scp
