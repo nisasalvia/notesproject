@@ -36,18 +36,27 @@ pipeline {
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: 'ssh-ec2', keyFileVariable: 'identity')]) {
                         bat """
-                        # Transfer inventory and deploy.yml using scp
-                        scp -i ${identity} -o StrictHostKeyChecking=no inventory ec2-user@47.129.46.47:~/
-                        scp -i ${identity} -o StrictHostKeyChecking=no deploy.yml ec2-user@47.129.46.47:~/
+                        REM Transfer inventory and deploy.yml using scp
+                        scp -i %identity% -o StrictHostKeyChecking=no inventory ec2-user@47.129.46.47:~/
+                        scp -i %identity% -o StrictHostKeyChecking=no deploy.yml ec2-user@47.129.46.47:~/
 
-                        # Execute ansible-playbook using ssh
-                        ssh -i ${identity} -o StrictHostKeyChecking=no ec2-user@47.129.46.47 "ansible-playbook -i ~/inventory ~/deploy.yml"
+                        REM Execute ansible-playbook using ssh
+                        ssh -i %identity% -o StrictHostKeyChecking=no ec2-user@47.129.46.47 "ansible-playbook -i ~/inventory ~/deploy.yml"
                         """
-                        // set IDENTITY=%identity%
-                        // pscp -batch -i %IDENTITY% -r inventory nafisa102003@34.19.111.242:~/
-                        // pscp -batch -i %IDENTITY% -r deploy.yml nafisa102003@34.125.180.116:~/
-                        // plink -batch -i %IDENTITY% nafisa102003@34.125.180.116 "ansible-playbook -i ~/inventory ~/deploy.yml"
+                        
+                        // bat """
+                        // # Transfer inventory and deploy.yml using scp
+                        // scp -i ${identity} -o StrictHostKeyChecking=no inventory ec2-user@47.129.46.47:~/
+                        // scp -i ${identity} -o StrictHostKeyChecking=no deploy.yml ec2-user@47.129.46.47:~/
+
+                        // # Execute ansible-playbook using ssh
+                        // ssh -i ${identity} -o StrictHostKeyChecking=no ec2-user@47.129.46.47 "ansible-playbook -i ~/inventory ~/deploy.yml"
                         // """
+                        // // set IDENTITY=%identity%
+                        // // pscp -batch -i %IDENTITY% -r inventory nafisa102003@34.19.111.242:~/
+                        // // pscp -batch -i %IDENTITY% -r deploy.yml nafisa102003@34.125.180.116:~/
+                        // // plink -batch -i %IDENTITY% nafisa102003@34.125.180.116 "ansible-playbook -i ~/inventory ~/deploy.yml"
+                        // // """
                     }
 
                     // withCredentials([sshUserPrivateKey(credentialsId: 'ecdsa-sha2-nistp256', keyFileVariable: 'identity')]) {
