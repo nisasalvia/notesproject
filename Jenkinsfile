@@ -38,29 +38,25 @@ pipeline {
                        // Debug step to check connectivity
                         bat """
                         @echo off
-                        echo Testing SSH connectivity to EC2 instance
+                        REM Testing SSH connectivity to EC2 instance
                         ssh -i %identity% -o StrictHostKeyChecking=no ec2-user@47.129.46.47 "echo Connected successfully"
+                        
+                        REM Transfer inventory and deploy.yml using scp
+                        scp -i %identity% -o StrictHostKeyChecking=no inventory ec2-user@47.129.46.47:~/
+                        scp -i %identity% -o StrictHostKeyChecking=no deploy.yml ec2-user@47.129.46.47:~/
+
+                        REM Execute ansible-playbook using ssh
+                        ssh -i %identity% -o StrictHostKeyChecking=no ec2-user@47.129.46.47 "ansible-playbook -i ~/inventory ~/deploy.yml"
                         """
                         
-                        // Proceed with deployment if connectivity test passes
                         // bat """
-                        // @echo off
-                        // REM Transfer inventory and deploy.yml using scp
-                        // scp -i %identity% -o StrictHostKeyChecking=no inventory ec2-user@47.129.46.47:~/
-                        // scp -i %identity% -o StrictHostKeyChecking=no deploy.yml ec2-user@47.129.46.47:~/
+                        // # Transfer inventory and deploy.yml using scp
+                        // scp -i ${identity} -o StrictHostKeyChecking=no inventory ec2-user@47.129.46.47:~/
+                        // scp -i ${identity} -o StrictHostKeyChecking=no deploy.yml ec2-user@47.129.46.47:~/
 
-                        // REM Execute ansible-playbook using ssh
-                        // ssh -i %identity% -o StrictHostKeyChecking=no ec2-user@47.129.46.47 "ansible-playbook -i ~/inventory ~/deploy.yml"
+                        // # Execute ansible-playbook using ssh
+                        // ssh -i ${identity} -o StrictHostKeyChecking=no ec2-user@47.129.46.47 "ansible-playbook -i ~/inventory ~/deploy.yml"
                         // """
-                        
-                        bat """
-                        # Transfer inventory and deploy.yml using scp
-                        scp -i ${identity} -o StrictHostKeyChecking=no inventory ec2-user@47.129.46.47:~/
-                        scp -i ${identity} -o StrictHostKeyChecking=no deploy.yml ec2-user@47.129.46.47:~/
-
-                        # Execute ansible-playbook using ssh
-                        ssh -i ${identity} -o StrictHostKeyChecking=no ec2-user@47.129.46.47 "ansible-playbook -i ~/inventory ~/deploy.yml"
-                        """
                         // // set IDENTITY=%identity%
                         // // pscp -batch -i %IDENTITY% -r inventory nafisa102003@34.19.111.242:~/
                         // // pscp -batch -i %IDENTITY% -r deploy.yml nafisa102003@34.125.180.116:~/
