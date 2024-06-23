@@ -39,14 +39,14 @@ pipeline {
                         bat """
                         @echo off
                         REM Testing SSH connectivity to EC2 instance
-                        ssh -i %identity% -o StrictHostKeyChecking=no ec2-user@ec2-47-129-46-47.ap-southeast-1.compute.amazonaws.com "echo Connected successfully"
+                        ssh -i %identity% -o StrictHostKeyChecking=no ec2-user@47.129.46.47 "echo Connected successfully"
                         
                         REM Transfer inventory and deploy.yml using scp
-                        scp -i %identity% -o StrictHostKeyChecking=no inventory ec2-user@ec2-47-129-46-47.ap-southeast-1.compute.amazonaws.com:~/
-                        scp -i %identity% -o StrictHostKeyChecking=no deploy.yml ec2-user@ec2-47-129-46-47.ap-southeast-1.compute.amazonaws.com:~/
+                        scp -i %identity% -o StrictHostKeyChecking=no inventory ec2-user@47.129.46.47:~/
+                        scp -i %identity% -o StrictHostKeyChecking=no deploy.yml ec2-user@47.129.46.47:~/
 
                         REM Execute ansible-playbook using ssh
-                        ssh -i %identity% -o StrictHostKeyChecking=no ec2-user@ec2-47-129-46-47.ap-southeast-1.compute.amazonaws.com "ansible-playbook -i ~/inventory ~/deploy.yml"
+                        ssh -i %identity% -o StrictHostKeyChecking=no ec2-user@47.129.46.47 "ansible-playbook -i ~/inventory ~/deploy.yml"
                         """
                         
                         // bat """
