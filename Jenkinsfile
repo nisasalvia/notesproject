@@ -20,8 +20,9 @@ pipeline {
         stage("Push to Docker Hub"){
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPass', usernameVariable: 'dockerHubUser')]) {
+                   withCredentials([sshUserPrivateKey(credentialsId: 'ssh-ec2', keyFileVariable: 'identity')]) {
                         bat """
+                        @echo off
                         docker tag notes-app ${env.dockerHubUser}/notes-app:latest
                         docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}
                         docker push ${env.dockerHubUser}/notes-app:latest
