@@ -20,9 +20,8 @@ pipeline {
         stage("Push to Docker Hub"){
             steps {
                 script {
-                   withCredentials([sshUserPrivateKey(credentialsId: 'ssh-ec2', keyFileVariable: 'identity')]) {
+                   withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPass', usernameVariable: 'dockerHubUser')]) {
                         bat """
-                        @echo off
                         docker tag notes-app ${env.dockerHubUser}/notes-app:latest
                         docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}
                         docker push ${env.dockerHubUser}/notes-app:latest
@@ -37,6 +36,7 @@ pipeline {
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: 'ssh-ec2', keyFileVariable: 'identity')]) {
                         bat """
+                        @echo off
                         REM Transfer inventory and deploy.yml using scp
                         scp -i %identity% -o StrictHostKeyChecking=no inventory ec2-user@47.129.46.47:~/
                         scp -i %identity% -o StrictHostKeyChecking=no deploy.yml ec2-user@47.129.46.47:~/
