@@ -21,21 +21,21 @@ pipeline {
             steps {
                 {
                 echo 'This is Test stage'
-                withCredentials([usernamePassword(credentialsId:"dockerhub-login",passwordVariable:"admin1234",usernameVariable:"nisasalvia" )]){
-                    bat "docker tag notes-app ${env.nisasalvia}/notesproject:latest"
-                    bat "docker login -u ${env.nisasalvia} -p ${env.admin1234}"
-                    bat "docker push ${env.nisasalvia}/notesproject:latest"
-                }
-                // script {
-                //    withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPass', usernameVariable: 'dockerHubUser')]) {
-                //         bat """
-                //         docker tag notes-app ${env.dockerHubUser}/notes-app:latest
-                //         docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}
-                //         docker push ${env.dockerHubUser}/notes-app:latest
-                //         docker logout
-                //         """
-                //     }
+                // withCredentials([usernamePassword(credentialsId:"dockerhub-login",passwordVariable:"admin1234",usernameVariable:"nisasalvia" )]){
+                //     bat "docker tag notes-app ${env.nisasalvia}/notesproject:latest"
+                //     bat "docker login -u ${env.nisasalvia} -p ${env.admin1234}"
+                //     bat "docker push ${env.nisasalvia}/notesproject:latest"
                 // }
+                script {
+                   withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPass', usernameVariable: 'dockerHubUser')]) {
+                        bat """
+                        docker tag notes-app ${env.dockerHubUser}/notes-app:latest
+                        docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}
+                        docker push ${env.dockerHubUser}/notes-app:latest
+                        docker logout
+                        """
+                    }
+                }
             }
         }
        stage("Deployment") {
