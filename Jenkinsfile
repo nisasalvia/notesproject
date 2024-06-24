@@ -5,6 +5,8 @@ pipeline {
         // Set AWS credentials using Jenkins credentials manager
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+        // Set the Terraform path
+        TERRAFORM_PATH = 'C:\terraform'
     }
 
     stages{
@@ -47,21 +49,21 @@ pipeline {
         stage("Terraform Init") {
             steps {
                 echo 'Initializing Terraform'
-                bat 'terraform init'
+                bat '${env.TERRAFORM_PATH} init'
             }
         }
 
         stage("Terraform Plan") {
             steps {
                 echo 'Planning Terraform changes'
-                bat 'terraform plan -out=tfplan'
+                bat '${env.TERRAFORM_PATH} plan -out=tfplan'
             }
         }
 
         stage("Terraform Apply") {
             steps {
                 echo 'Applying Terraform changes'
-                bat 'terraform apply -auto-approve tfplan'
+                bat '${env.TERRAFORM_PATH} apply -auto-approve tfplan'
             }
         }
         stage("Deployment") {
