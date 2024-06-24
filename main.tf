@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "notesproject" {
-  ami           = "ami-04c913012f8977029"
+  ami           = "ami-003c463c8207b4dfa"
   instance_type = "t2.micro"
   key_name      = "docker.pem"
   
