@@ -9,6 +9,6 @@ resource "aws_instance" "notesproject" {
   
 
   tags = {
-    Name = "notesproject"
+    Name = "jenkins-server"
   }
 }
