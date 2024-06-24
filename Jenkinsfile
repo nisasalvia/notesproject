@@ -43,12 +43,7 @@ pipeline {
                 }
             }
         }
-       stage("Deployment") {
-            steps {
-                echo 'Deploying container'
-                bat 'docker-compose down --timeout 30 && docker-compose up -d'                
-            }
-        }
+
         stage("Terraform Init") {
             steps {
                 echo 'Initializing Terraform'
@@ -67,6 +62,24 @@ pipeline {
             steps {
                 echo 'Applying Terraform changes'
                 bat 'terraform apply -auto-approve tfplan'
+            }
+        }
+        stage("Deployment") {
+            steps {
+                echo 'Deploying container'
+                bat 'docker-compose down --timeout 30 && docker-compose up -d'                
+            }
+        }
+        post {
+            always {
+                echo 'Cleaning up'
+                bat 'rm -f tfplan'
+            }
+            success {
+                echo 'Pipeline succeeded'
+            }
+            failure {
+                echo 'Pipeline failed'
             }
         }
     }
