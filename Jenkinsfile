@@ -49,21 +49,21 @@ pipeline {
         stage("Terraform Init") {
             steps {
                 echo 'Initializing Terraform'
-                bat '${env.TERRAFORM_PATH} init'
+                bat "%TERRAFORM_PATH% init"
             }
         }
 
         stage("Terraform Plan") {
             steps {
                 echo 'Planning Terraform changes'
-                bat '${env.TERRAFORM_PATH} plan -out=tfplan'
+                bat "%TERRAFORM_PATH% plan -out=tfplan"
             }
         }
 
         stage("Terraform Apply") {
             steps {
                 echo 'Applying Terraform changes'
-                bat '${env.TERRAFORM_PATH} apply -auto-approve tfplan'
+                bat "%TERRAFORM_PATH% apply -auto-approve tfplan"
             }
         }
         stage("Deployment") {
