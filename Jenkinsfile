@@ -40,7 +40,7 @@ pipeline {
        stage("Deployment") {
             steps {
                 echo 'Deploying container'
-                sh 'docker-compose down --timeout 30 && docker-compose up -d'
+                bat 'docker-compose down --timeout 30 && docker-compose up -d'
                 // script {
                 //     withCredentials([sshUserPrivateKey(credentialsId: 'ssh-ec2', keyFileVariable: 'identity')]) {
                 //        // Debug step to check connectivity
