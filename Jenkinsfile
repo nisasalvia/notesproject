@@ -76,7 +76,7 @@ pipeline {
     post {
         always {
             echo 'Cleaning up'
-            bat 'rm -f tfplan'
+            bat 'del -f tfplan'
         }
         success {
             echo 'Pipeline succeeded'
