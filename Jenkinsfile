@@ -1,6 +1,12 @@
 pipeline {
     agent any 
     
+    environment {
+        // Set AWS credentials using Jenkins credentials manager
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+    }
+
     stages{
         stage("Clone Code"){
             steps {
@@ -40,31 +46,27 @@ pipeline {
        stage("Deployment") {
             steps {
                 echo 'Deploying container'
-                bat 'docker-compose down --timeout 30 && docker-compose up -d'
-                // script {
-                //     withCredentials([sshUserPrivateKey(credentialsId: 'ssh-ec2', keyFileVariable: 'identity')]) {
-                //        // Debug step to check connectivity
-                //         bat """
-                //         @echo off
-                //         REM Testing SSH connectivity to EC2 instance
-                //         ssh -i %identity% -o StrictHostKeyChecking=no ec2-user@47.129.46.47 "echo Connected successfully"
-                        
-                //         REM Transfer inventory and deploy.yml using scp
-                //         scp -i %identity% -o StrictHostKeyChecking=no inventory ec2-user@47.129.46.47:~/
-                //         scp -i %identity% -o StrictHostKeyChecking=no deploy.yml ec2-user@47.129.46.47:~/
+                bat 'docker-compose down --timeout 30 && docker-compose up -d'                
+            }
+        }
+        stage("Terraform Init") {
+            steps {
+                echo 'Initializing Terraform'
+                bat 'terraform init'
+            }
+        }
 
-                //         REM Execute ansible-playbook using ssh
-                //         ssh -i %identity% -o StrictHostKeyChecking=no ec2-user@47.129.46.47 "ansible-playbook -i ~/inventory ~/deploy.yml"
-                //         """                    
+        stage("Terraform Plan") {
+            steps {
+                echo 'Planning Terraform changes'
+                bat 'terraform plan -out=tfplan'
+            }
+        }
 
-                // withCredentials([sshUserPrivateKey(credentialsId: 'ecdsa-sha2-nistp256', keyFileVariable: 'identity')]) {
-                //     sh """
-                //     scp -o StrictHostKeyChecking=no -i $identity inventory deploy.yml nafisa102003@34.125.180.116:~
-                //     ssh -o StrictHostKeyChecking=no -i $identity nafisa102003@34.125.180.116 '
-                //     ansible-playbook -i ~/inventory ~/deploy.yml'
-                //     """
-                // bat 'ansible-playbook -i inventory deploy.yml'
-                
+        stage("Terraform Apply") {
+            steps {
+                echo 'Applying Terraform changes'
+                bat 'terraform apply -auto-approve tfplan'
             }
         }
     }
