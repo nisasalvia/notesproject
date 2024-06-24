@@ -70,17 +70,17 @@ pipeline {
                 bat 'docker-compose down --timeout 30 && docker-compose up -d'                
             }
         }
-        post {
-            always {
-                echo 'Cleaning up'
-                bat 'rm -f tfplan'
-            }
-            success {
-                echo 'Pipeline succeeded'
-            }
-            failure {
-                echo 'Pipeline failed'
-            }
+    }
+    post {
+        always {
+            echo 'Cleaning up'
+            bat 'rm -f tfplan'
+        }
+        success {
+            echo 'Pipeline succeeded'
+        }
+        failure {
+            echo 'Pipeline failed'
         }
     }
 }
