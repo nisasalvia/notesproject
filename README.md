@@ -54,6 +54,48 @@ Do `docker compose` using command as follows:
 ```bash
 sudo apt-get install docker-compose
 ```
+
+### Part 6. Install Terraform
+Install the terraform IaC using command as follows:
+```bash
+sudo apt-get update 
+sudo apt-get install -y gnupg software-properties-common
+```
+
+### Part 7. Edit inbound role in instance
+To edit inbound role, you can click your instance that will be show a details of the instance. Then, you can click security tab and open the security groups. And you can edit inbound role and add new port 8080 and 8000.
+- Port 8080: For Jenkins
+- Port 8000: For the machine
+
+![Edit Inbound Role](images/edit-inbound-role.png)
+
+### Part 8. Get Administrator Password
+To unlock Jenkins, an administrator password is required which can be used with the following command:
+```bash
+cat /var/lib/jenkins/secrets/initialAdminPassord
+```
+
+### Part 9. Get into Jenkins
+1. To log into jenkins page, use IP `ip-address:8080`.
+2. Create your account
+3. Install the docker plugin in Manage Jenkins > Plugins > Available Plugins > search Docker Pipeline.
+
+### Part 10. Configure Jenkins
+1. Create a CI/CD pipeline from Jenkins Dashboard and click on `New Item`
+2. Enter an item name, choose `pipeline`, and click `OK`.
+3. Configure pipeline in Dashboard > `your-name-item` > configuration > general
+4. Click `GitHub Project` and copy your GitHub project URL.
+5. Check `GitHub hook trigger for GITScm polling` and save.
+
+### Part 11. Create Credentials for Jenkins Pipeline
+1. Create credentials in Dashboard > Manage Jenkins > Credentials > System > Gloal Credentials.
+2. Choose scope `Global`.
+3. Insert the username and password with the value as you like.
+4. Insert the ID `dockerHub`.
+5. Create new credentials with scope `SSH`.
+6. Insert the ID `ssh-key`.
+7. Input the key that you got from create key pair in instance.
+
 <!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
