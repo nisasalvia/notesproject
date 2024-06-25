@@ -24,11 +24,78 @@ A notes app project website serves as a comprehensive platform to create, manage
 - Terraform: Infrastructure-as-Code (IaC)
 - Python & Django: Framework & Backend
 
-## Step-by-Step
-### Part 1. Create new instance in AWS portal
-Open AWS Portal and create new instance. Choose the AMI for ubuntu and instance type is t2.micro (free tier). In the section of Key pair login, you have to create new key pair. After new key pair created, check the list to Allow HTTP and Allow HTTPS. After all, click on Launch Instance and connect to the EC2 instance.
+## Prerequisites
+This project using Python version 3.9. Also you need to download and install some of these tools to run Notes App locally on your machine:
+
+### Part 1. Install Django
+First, you need to download Django using command as follows:
+```bash
+pip install django
+python -m django --version
+```
+
+### Part 2. Install Node.js
+You need to download React.js first on your local machine: https://nodejs.org/en
+
+### Part 3. Create React App
+In the project directory, you can run:
+
+`npm start`
+Runs the app in the development mode.
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will reload when you make changes.
+You may also see any lint errors in the console.
+
+`npm test`
+Launches the test runner in the interactive watch mode.
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+`npm run build`
+Builds the app for production to the `build` folder.
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+`npm run eject`
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
 ### Part 2. Install Docker
+You also need to download and install docker through docker official installation based on your machine:https://www.docker.com/products/docker-desktop/
+
+### Part 3: Install JDK
+You need to download and install JDK to your local machine. You can use this website https://adoptium.net/
+
+### Part 4. Install Jenkins
+Download and Install Jenkins to your local machine too through official installation from jenkins: https://www.jenkins.io/download/
+
+
+## Installation
+1. Clone Repository
+```bash
+git clone https://github.com/nisasalvia/notesproject.git
+```
+
+2. Build the app
+```bash
+docker build -t notes-app .
+```
+
+3. Run the app
+```bash
+docker run -d -p 8000:8000 notes-app:latest
+```
+
+<!-- ### Part 2. Install Docker
 Install the `docker` package with `apt` as follows:
 ```bash
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
@@ -107,12 +174,9 @@ cat /var/lib/jenkins/secrets/initialAdminPassord
 4. Click `send me everything`.
 5. Click `Add webhook`.
 
-### Part 13. Run your Jenkins Pipeline
-Run your pipeline using the jenkins that was opened on your instance.
 
-### Finish! Now, your Notes App Project is accessible.
-
-![Notes App Project](images/notes-app.png)
+### Part 1. Create new instance in AWS portal
+Open AWS Portal and create new instance. Choose the AMI for ubuntu and instance type is t2.micro (free tier). In the section of Key pair login, you have to create new key pair. After new key pair created, check the list to Allow HTTP and Allow HTTPS. After all, click on Launch Instance and connect to the EC2 instance. -->
 
 <!-- # Getting Started with Create React App
 
