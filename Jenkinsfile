@@ -6,7 +6,7 @@ pipeline {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         // Set the Terraform path
-        TERRAFORM_PATH = '/var/lib/jenkins/workspace/notesproject/terraform'
+        // TERRAFORM_PATH = '/var/lib/jenkins/workspace/notesproject/terraform'
         EC2_INSTANCE = 'ec2-user@46.137.194.170'
         SSH_KEY = 'ssh_key' // The ID of the SSH key stored in Jenkins credentials
     }
@@ -52,7 +52,8 @@ pipeline {
         stage("Terraform Init") {
             steps {
                 echo 'Initializing Terraform'
-                sh "${TERRAFORM_PATH} init"
+                sh 'terraform init'
+                // sh "${TERRAFORM_PATH} init"
                     // sh """
                     // ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
                     // cd /home/ubuntu/notes-app-aws
@@ -66,7 +67,8 @@ pipeline {
         stage("Terraform Plan") {
             steps {
                 echo 'Planning Terraform changes'
-                sh "${TERRAFORM_PATH} plan -out=tfplan"
+                sh 'terraform plan -out=tfplan'
+                // sh "${TERRAFORM_PATH} plan -out=tfplan"
                     // sh """
                     // ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
                     // cd /home/ubuntu/notes-app-aws
@@ -79,7 +81,8 @@ pipeline {
         stage("Terraform Apply") {
             steps {
                 echo 'Applying Terraform changes'
-                sh "${TERRAFORM_PATH} apply -auto-approve tfplan"
+                sh 'terraform apply -auto-approve tfplan'
+                // sh "${TERRAFORM_PATH} apply -auto-approve tfplan"
                     // sh """
                     // ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
                     // cd /home/ubuntu/notes-app-aws
