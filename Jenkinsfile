@@ -67,7 +67,7 @@ pipeline {
         stage("Terraform Plan") {
             steps {
                 echo 'Planning Terraform changes'
-                sh 'terraform plan -out=tfplan'
+                sh 'terraform plan -out=tfplan -parallelism=10'
                 // sh "${TERRAFORM_PATH} plan -out=tfplan"
                     // sh """
                     // ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
