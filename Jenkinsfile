@@ -6,7 +6,7 @@ pipeline {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         // Set the Terraform path
-        TERRAFORM_PATH = 'C:\terraform\terraform.exe'
+        //TERRAFORM_PATH = 'C:\terraform\terraform.exe'
         EC2_INSTANCE = 'ec2-user@46.137.194.170'
         SSH_KEY = 'ssh_key' // The ID of the SSH key stored in Jenkins credentials
     }
@@ -52,21 +52,45 @@ pipeline {
         stage("Terraform Init") {
             steps {
                 echo 'Initializing Terraform'
-                sh "${TERRAFORM_PATH} init"
+                withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'keyfile')]) {
+                    sh """
+                    ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
+                    cd /notes-app-aws
+                    terraform init
+                    EOF
+                    """
+                }
+                // sh "${TERRAFORM_PATH} init"
             }
         }
 
         stage("Terraform Plan") {
             steps {
                 echo 'Planning Terraform changes'
-                sh "${TERRAFORM_PATH} plan -out=tfplan"
+                withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'keyfile')]) {
+                    sh """
+                    ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
+                    cd /notes-app-aws
+                    terraform plan -out=tfplan
+                    EOF
+                    """
+                    //sh "${TERRAFORM_PATH} plan -out=tfplan"
+                }
             }
         }
 
         stage("Terraform Apply") {
             steps {
                 echo 'Applying Terraform changes'
-                sh "${TERRAFORM_PATH} apply -auto-approve tfplan"
+                withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'keyfile')]) {
+                    sh """
+                    ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
+                    cd /notes-app-aws
+                    terraform apply -auto-approve tfplan
+                    EOF
+                    """
+                }
+                // sh "${TERRAFORM_PATH} apply -auto-approve tfplan"
             }
         }
         
@@ -111,7 +135,15 @@ pipeline {
     post {
         always {
             echo 'Cleaning up'
-            sh 'del -f tfplan'
+            withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'keyfile')]) {
+                sh """
+                ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
+                cd /notes-app-aws
+                rm -f tfplan
+                EOF
+                """
+            }
+            // sh 'del -f tfplan'
         }
         success {
             echo 'Pipeline succeeded'
