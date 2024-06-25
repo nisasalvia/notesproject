@@ -96,6 +96,14 @@ cat /var/lib/jenkins/secrets/initialAdminPassord
 6. Insert the ID `ssh-key`.
 7. Input the key that you got from create key pair in instance.
 
+
+### Part 12. Create GitHub Webhook
+1. Go to your GitHub repository.
+2. Click settings > Webhooks.
+3. On the page Webhooks displayed, input the jenkins public IP address.
+4. Click `send me everything`.
+5. Click `Add webhook`.
+
 <!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
