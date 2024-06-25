@@ -14,7 +14,7 @@ In the digital age, people often need to take notes for various purposes such as
 
 A notes app project website serves as a comprehensive platform to create, manage, and access notes efficiently. By utilizing user-centered features and design, this notes app enhances user productivity.By using the pipeline, it can make it easier for users to access website.
 
-![Pipeline Overview](images/pipeline.png)
+![Pipeline Overview](images/pipeline-2.png)
 
 **Tools**
 - GitHub: Version Control Setup
