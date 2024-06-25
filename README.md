@@ -104,6 +104,13 @@ cat /var/lib/jenkins/secrets/initialAdminPassord
 4. Click `send me everything`.
 5. Click `Add webhook`.
 
+### Part 13. Run your Jenkins Pipeline
+Run your pipeline using the jenkins that was opened on your instance.
+
+### Finish! Now, your Notes App Project is accessible.
+
+![Notes App Project](images/notes-app.png)
+
 <!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
