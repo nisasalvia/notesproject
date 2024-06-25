@@ -89,7 +89,7 @@ pipeline {
         stage("Terraform Apply") {
             steps {
                 echo 'Applying Terraform changes'
-                sh 'terraform apply -auto-approve tfplan'
+                sh 'terraform apply -auto-approve'
                 // sh "${TERRAFORM_PATH} apply -auto-approve tfplan"
                     // sh """
                     // ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
