@@ -1,3 +1,19 @@
+<div align="center">
+  <h1>Judul Proyek</h1>
+</div>
+
+(https://drive.google.com/file/d/1uVgFXAHaZwYxRKI6alhQrq42lg9hQ3Bq/view?usp=sharing)
+
+## Problem Definition
+
+In the digital age, people often need to take notes for various purposes such as meetings, lectures, personal thoughts, and to-do lists. Traditional methods of note-taking on paper can be cumbersome, disorganized, and easily lost. Many existing digital note-taking solutions are either too complex, lacking in essential features, or not user-friendly. There is a need for a simple, efficient, and user-friendly notes app that can help users organize their thoughts and tasks effectively.
+
+## Solution Overview
+
+A notes app project website serves as a comprehensive platform to create, manage, and access notes efficiently. By utilizing user-centered features and design, this notes app enhances user productivity.By using the pipeline, it can make it easier for users to access website.
+
+(https://drive.google.com/file/d/1qFGJ8lD-_6VUaanavz1x517W8YNPSYNR/view?usp=sharing)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
