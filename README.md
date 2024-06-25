@@ -30,27 +30,30 @@ Open AWS Portal and create new instance. Choose the AMI for ubuntu and instance 
 
 ### Part 2. Install Docker
 Install the `docker` package with `apt` as follows:
-    ```bash
-    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```bash
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
 
 ### Part 3. Install jdk in instance
 To install the `jdk` in instance you can use the command as follows:
-    ```bash
-    sudo apt install openjdk-17-jre
+```bash
+sudo apt install openjdk-17-jre
+```
 
 ### Part 4. Install Jenkins
 Install `jenkins` using the command as follows:
-    ```bash
-    sudo yum install jenkins
-    sudo systemctl enable jenkins
-    sudo systemctl start jenkins
-    sudo systemctl status jenkins
+```bash
+sudo yum install jenkins
+sudo systemctl enable jenkins
+sudo systemctl start jenkins
+sudo systemctl status jenkins
+```
 
 ### Part 5. Docker compose
 Do `docker compose` using command as follows:
-    ```bash
-    sudo apt-get install docker-compose
-
+```bash
+sudo apt-get install docker-compose
+```
 <!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
