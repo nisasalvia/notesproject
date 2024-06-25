@@ -7,8 +7,8 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         // Set the Terraform path
         TERRAFORM_PATH = 'C:\terraform\terraform.exe'
-        EC2_INSTANCE = 'ec2-user@172.31.29.241'
-        SSH_KEY = 'SSH_KEY' // The ID of the SSH key stored in Jenkins credentials
+        EC2_INSTANCE = 'ec2-user@46.137.194.170'
+        SSH_KEY = 'ssh_key' // The ID of the SSH key stored in Jenkins credentials
     }
 
     stages{
@@ -30,15 +30,21 @@ pipeline {
         stage("Push to Docker Hub"){
             steps {
                 script {
-                    echo 'This is Test stage'                   
-                    withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPass', usernameVariable: 'dockerHubUser')]) {
-                        bat """
-                        docker tag notes-app ${env.dockerHubUser}/notes-app:latest
-                        docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}
-                        docker push ${env.dockerHubUser}/notes-app:latest
-                        docker logout
-                        """
+                    echo 'This is Test stage'
+                    withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"admin1234",usernameVariable:"nisasalvia" )]){
+                    sh "docker tag notes-app ${env.nisasalvia}/notes-app:latest"
+                    sh "docker login -u ${env.nisasalvia} -p ${env.admin1234}"
+                    sh "docker push ${env.nisasalvia}/notes-app:latest"
                     }
+                   
+                    // withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'admin1234', usernameVariable: 'nisasalvia')]) {
+                    //     bat """
+                    //     docker tag notes-app ${env.nisasalvia}/notes-app:latest
+                    //     docker login -u ${env.nisa} -p ${env.dockerHubPass}
+                    //     docker push ${env.dockerHubUser}/notes-app:latest
+                    //     docker logout
+                    //     """
+                    // }
                 }
             }
         }
@@ -69,7 +75,7 @@ pipeline {
                 // echo 'Deploying container'
                 // bat 'docker-compose down --timeout 30 && docker-compose up -d'                
                 echo 'Deploying to EC2'
-                withCredentials([sshUserPrivateKey(credentialsId: 'SSH_KEY', keyFileVariable: 'keyfile')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'keyfile')]) {
                     // Transfer Docker Compose file to EC2 instance
                     bat "scp -i ${keyfile} docker-compose.yml ${EC2_INSTANCE}:~/"
 
@@ -77,7 +83,7 @@ pipeline {
                     bat """
                     ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
                     docker-compose down --timeout 30
-                    docker-compose pull ${env.dockerHubUser}/notes-app:latest
+                    docker-compose pull ${env.nisasalvia}/notes-app:latest
                     docker-compose up -d
                     EOF
                     """
