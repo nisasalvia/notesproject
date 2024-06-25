@@ -64,27 +64,27 @@ pipeline {
 
         }
 
-        stage("Terraform Plan") {
-            steps {
-                echo 'Planning Terraform changes'
-                writeFile file: 'run_terraform_plan.sh', text: '''#!/bin/bash
-                set -x
-                terraform init
-                terraform plan -out=tfplan -parallelism=10
-                '''
-                sh 'chmod +x run_terraform_plan.sh'
-                sh 'timeout 10m ./run_terraform_plan.sh'
-                // echo 'Planning Terraform changes'
-                // sh 'terraform plan -out=tfplan -parallelism=10'
-                // sh "${TERRAFORM_PATH} plan -out=tfplan"
-                    // sh """
-                    // ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
-                    // cd /home/ubuntu/notes-app-aws
-                    // terraform plan -out=tfplan
-                    // EOF
-                    // ""
-            }
-        }
+        // stage("Terraform Plan") {
+        //     steps {
+        //         echo 'Planning Terraform changes'
+        //         writeFile file: 'run_terraform_plan.sh', text: '''#!/bin/bash
+        //         set -x
+        //         terraform init
+        //         terraform plan -out=tfplan -parallelism=10
+        //         '''
+        //         sh 'chmod +x run_terraform_plan.sh'
+        //         sh 'timeout 10m ./run_terraform_plan.sh'
+        //         // echo 'Planning Terraform changes'
+        //         // sh 'terraform plan -out=tfplan -parallelism=10'
+        //         // sh "${TERRAFORM_PATH} plan -out=tfplan"
+        //             // sh """
+        //             // ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
+        //             // cd /home/ubuntu/notes-app-aws
+        //             // terraform plan -out=tfplan
+        //             // EOF
+        //             // ""
+        //     }
+        // }
 
         stage("Terraform Apply") {
             steps {
