@@ -95,6 +95,12 @@ docker build -t notes-app .
 docker run -d -p 8000:8000 notes-app:latest
 ```
 
+## Usage
+To look at the view of the website, you can type this line to your browser.
+```bash
+http://localhost:8000/
+```
+
 <!-- ### Part 2. Install Docker
 Install the `docker` package with `apt` as follows:
 ```bash
