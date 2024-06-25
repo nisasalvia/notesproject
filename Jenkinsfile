@@ -53,12 +53,20 @@ pipeline {
             steps {
                 echo 'Initializing Terraform'
                 withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'keyfile')]) {
-                    sh """
-                    ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
-                    cd /notes-app-aws
-                    terraform init
-                    EOF
-                    """
+                    script {
+                        sh """
+                        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i \$keyfile ${EC2_INSTANCE} << EOF
+                        cd /home/ubuntu/home/ubuntu/notes-app-aws
+                        terraform init
+                        EOF
+                        """
+                    }
+                    // sh """
+                    // ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
+                    // cd /home/ubuntu/notes-app-aws
+                    // terraform init
+                    // EOF
+                    // """
                 }
                 // sh "${TERRAFORM_PATH} init"
             }
@@ -68,12 +76,20 @@ pipeline {
             steps {
                 echo 'Planning Terraform changes'
                 withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'keyfile')]) {
-                    sh """
-                    ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
-                    cd /notes-app-aws
-                    terraform plan -out=tfplan
-                    EOF
-                    """
+                    script {
+                        sh """
+                        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i \$keyfile ${EC2_INSTANCE} << EOF
+                        cd /home/ubuntu/home/ubuntu/notes-app-aws
+                        terraform plan -out=tfplan
+                        EOF
+                        """
+                    }
+                    // sh """
+                    // ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
+                    // cd /home/ubuntu/notes-app-aws
+                    // terraform plan -out=tfplan
+                    // EOF
+                    // """
                     //sh "${TERRAFORM_PATH} plan -out=tfplan"
                 }
             }
@@ -83,12 +99,20 @@ pipeline {
             steps {
                 echo 'Applying Terraform changes'
                 withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'keyfile')]) {
-                    sh """
-                    ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
-                    cd /notes-app-aws
-                    terraform apply -auto-approve tfplan
-                    EOF
-                    """
+                    script {
+                        sh """
+                        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i \$keyfile ${EC2_INSTANCE} << EOF
+                        cd /home/ubuntu/home/ubuntu/notes-app-aws
+                        terraform apply -auto-approve tfplan
+                        EOF
+                        """
+                    }
+                    // sh """
+                    // ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
+                    // cd /home/ubuntu/notes-app-aws
+                    // terraform apply -auto-approve tfplan
+                    // EOF
+                    // """
                 }
                 // sh "${TERRAFORM_PATH} apply -auto-approve tfplan"
             }
@@ -102,20 +126,17 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'keyfile')]) {
                     script {
                         // Transfer Docker Compose file to EC2 instance
-                        def scpCommand = "scp -i ${keyfile} docker-compose.yml ${EC2_INSTANCE}:~/"
-                        writeFile file: 'scp-command.sh', text: scpCommand
-                        sh 'bash scp-command.sh'
-
+                        sh """
+                        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i \$keyfile docker-compose.yml ${EC2_INSTANCE}:~/
+                        """
                         // SSH into EC2 instance and run Docker commands
-                        def sshCommand = """
-                        ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
+                        sh """
+                        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i \$keyfile ${EC2_INSTANCE} << EOF
                         docker-compose down --timeout 30
-                        docker-compose pull ${nisasalvia}/notes-app:latest
+                        docker-compose pull ${env.nisasalvia}/notes-app:latest
                         docker-compose up -d
                         EOF
                         """
-                        writeFile file: 'ssh-command.sh', text: sshCommand
-                        sh 'bash ssh-command.sh'
                     }
                     // // Transfer Docker Compose file to EC2 instance
                     // sh "scp -i ${keyfile} docker-compose.yml ${EC2_INSTANCE}:~/"
@@ -136,12 +157,20 @@ pipeline {
         always {
             echo 'Cleaning up'
             withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'keyfile')]) {
-                sh """
-                ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
-                cd /notes-app-aws
-                rm -f tfplan
-                EOF
-                """
+                script {
+                    sh """
+                    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i \$keyfile ${EC2_INSTANCE} << EOF
+                    cd /home/ubuntu/home/ubuntu/notes-app-aws
+                    rm -f tfplan
+                    EOF
+                    """
+                }
+                // sh """
+                // ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
+                // cd /home/ubuntu/notes-app-aws
+                // rm -f tfplan
+                // EOF
+                // """
             }
             // sh 'del -f tfplan'
         }
