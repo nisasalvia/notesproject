@@ -2,7 +2,7 @@
   <h1>Notes App Project</h1>
 </div>
 
-Final project mata kuliah Pengembangan Sistem dan Operasi (PSO) atau DevOps di Sistem Informasi ITS 2024.
+Final project mata kuliah Pengembangan Sistem dan Operasi (PSO) atau DevOps Sistem Informasi ITS 2024.
 
 ![Notes App Project](images/notes-app.png)
 
