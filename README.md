@@ -1,8 +1,8 @@
 <div align="center">
-  <h1>Judul Proyek</h1>
+  <h1>Notes App Project</h1>
 </div>
 
-(https://drive.google.com/file/d/1uVgFXAHaZwYxRKI6alhQrq42lg9hQ3Bq/view?usp=sharing)
+!(notes-app.png)
 
 ## Problem Definition
 
@@ -12,7 +12,7 @@ In the digital age, people often need to take notes for various purposes such as
 
 A notes app project website serves as a comprehensive platform to create, manage, and access notes efficiently. By utilizing user-centered features and design, this notes app enhances user productivity.By using the pipeline, it can make it easier for users to access website.
 
-(https://drive.google.com/file/d/1qFGJ8lD-_6VUaanavz1x517W8YNPSYNR/view?usp=sharing)
+!(pipeline.png)
 
 # Getting Started with Create React App
 
