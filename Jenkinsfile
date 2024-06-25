@@ -56,7 +56,7 @@ pipeline {
                     script {
                         sh """
                         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i \$keyfile ${EC2_INSTANCE} << EOF
-                        cd /home/ubuntu/home/ubuntu/notes-app-aws
+                        cd /home/ubuntu/notes-app-aws
                         terraform init
                         EOF
                         """
@@ -79,7 +79,7 @@ pipeline {
                     script {
                         sh """
                         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i \$keyfile ${EC2_INSTANCE} << EOF
-                        cd /home/ubuntu/home/ubuntu/notes-app-aws
+                        cd /home/ubuntu/notes-app-aws
                         terraform plan -out=tfplan
                         EOF
                         """
@@ -102,7 +102,7 @@ pipeline {
                     script {
                         sh """
                         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i \$keyfile ${EC2_INSTANCE} << EOF
-                        cd /home/ubuntu/home/ubuntu/notes-app-aws
+                        cd /home/ubuntu/notes-app-aws
                         terraform apply -auto-approve tfplan
                         EOF
                         """
@@ -160,7 +160,7 @@ pipeline {
                 script {
                     sh """
                     ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i \$keyfile ${EC2_INSTANCE} << EOF
-                    cd /home/ubuntu/home/ubuntu/notes-app-aws
+                    cd /home/ubuntu/notes-app-aws
                     rm -f tfplan
                     EOF
                     """
