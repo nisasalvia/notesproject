@@ -2,6 +2,8 @@
   <h1>Notes App Project</h1>
 </div>
 
+Final project mata kuliah Pengembangan Sistem dan Operasi (PSO) atau DevOps di Sistem Informasi ITS 2024.
+
 ![Notes App Project](images/notes-app.png)
 
 ## Problem Definition
@@ -14,7 +16,42 @@ A notes app project website serves as a comprehensive platform to create, manage
 
 ![Pipeline Overview](images/pipeline.png)
 
-# Getting Started with Create React App
+**Tools**
+- GitHub: Version Control Setup
+- Jenkins: CI/CD Tools
+- Docker: Containerization
+- React.js & Node.js: Frontend & Development Server
+- Terraform: Infrastructure-as-Code (IaC)
+- Python & Django: Framework & Backend
+
+## Step-by-Step
+### Part 1. Create new instance in AWS portal
+Open AWS Portal and create new instance. Choose the AMI for ubuntu and instance type is t2.micro (free tier). In the section of Key pair login, you have to create new key pair. After new key pair created, check the list to Allow HTTP and Allow HTTPS. After all, click on Launch Instance and connect to the EC2 instance.
+
+### Part 2. Install Docker
+Install the `docker` package with `apt` as follows:
+    ```sh
+    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+### Part 3. Install jdk in instance
+To install the `jdk` in instance you can use the command as follows:
+    ```sh
+    sudo apt install openjdk-17-jre
+
+### Part 4. Install Jenkins
+Install `jenkins` using the command as follows:
+    ```sh
+    sudo yum install jenkins
+    sudo systemctl enable jenkins
+    sudo systemctl start jenkins
+    sudo systemctl status jenkins
+
+### Part 5. Docker compose
+Do `docker compose` using command as follows:
+    ```sh
+    sudo apt-get install docker-compose
+
+<!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -83,4 +120,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
