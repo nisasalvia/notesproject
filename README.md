@@ -2,7 +2,7 @@
   <h1>Notes App Project</h1>
 </div>
 
-!(notes-app.png)
+![Notes App Project](images/notes-app.png)
 
 ## Problem Definition
 
@@ -12,7 +12,7 @@ In the digital age, people often need to take notes for various purposes such as
 
 A notes app project website serves as a comprehensive platform to create, manage, and access notes efficiently. By utilizing user-centered features and design, this notes app enhances user productivity.By using the pipeline, it can make it easier for users to access website.
 
-!(pipeline.png)
+![Pipeline Overview](images/pipeline.png)
 
 # Getting Started with Create React App
 
