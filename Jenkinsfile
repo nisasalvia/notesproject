@@ -7,7 +7,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         // Set the Terraform path
         // TERRAFORM_PATH = '/var/lib/jenkins/workspace/notesproject/terraform'
-        EC2_INSTANCE = 'ec2-user@54.169.162.218'
+        EC2_INSTANCE = 'ec2-user@54.255.240.163'
         SSH_KEY = 'ssh_key' // The ID of the SSH key stored in Jenkins credentials
     }
 
@@ -68,11 +68,12 @@ pipeline {
             steps {
                 echo 'Planning Terraform changes'
                 writeFile file: 'run_terraform_plan.sh', text: '''#!/bin/bash
+                set -x
                 terraform init
                 terraform plan -out=tfplan -parallelism=10
                 '''
                 sh 'chmod +x run_terraform_plan.sh'
-                sh './run_terraform_plan.sh'
+                sh 'timeout 10m ./run_terraform_plan.sh'
                 // echo 'Planning Terraform changes'
                 // sh 'terraform plan -out=tfplan -parallelism=10'
                 // sh "${TERRAFORM_PATH} plan -out=tfplan"
