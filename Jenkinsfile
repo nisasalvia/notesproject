@@ -66,6 +66,14 @@ pipeline {
                 bat "%TERRAFORM_PATH% apply -auto-approve tfplan"
             }
         }
+        stage("Retrieve Public IP") {
+            steps {
+                script {
+                    def publicIp = bat(script: "%TERRAFORM_PATH% output -raw public_ip", returnStdout: true).trim()
+                    echo "Public IP: ${publicIp}"
+                }
+            }
+        }
         stage("Deployment") {
             steps {
                 echo 'Deploying container'
