@@ -7,7 +7,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         // Set the Terraform path
         // TERRAFORM_PATH = '/var/lib/jenkins/workspace/notesproject/terraform'
-        EC2_INSTANCE = 'ec2-user@54.179.177.98'
+        EC2_INSTANCE = 'ec2-user@47.128.238.63'
         SSH_KEY = 'ssh_key' // The ID of the SSH key stored in Jenkins credentials
     }
 
