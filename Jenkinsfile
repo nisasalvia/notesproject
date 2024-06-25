@@ -52,35 +52,35 @@ pipeline {
         stage("Terraform Init") {
             steps {
                 echo 'Initializing Terraform'
-                bat "%TERRAFORM_PATH% init"
+                sh "%TERRAFORM_PATH% init"
             }
         }
 
         stage("Terraform Plan") {
             steps {
                 echo 'Planning Terraform changes'
-                bat "%TERRAFORM_PATH% plan -out=tfplan"
+                sh "%TERRAFORM_PATH% plan -out=tfplan"
             }
         }
 
         stage("Terraform Apply") {
             steps {
                 echo 'Applying Terraform changes'
-                bat "%TERRAFORM_PATH% apply -auto-approve tfplan"
+                sh "%TERRAFORM_PATH% apply -auto-approve tfplan"
             }
         }
         
         stage("Deployment") {
             steps {
                 // echo 'Deploying container'
-                // bat 'docker-compose down --timeout 30 && docker-compose up -d'                
+                // sh 'docker-compose down --timeout 30 && docker-compose up -d'                
                 echo 'Deploying to EC2'
                 withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'keyfile')]) {
                     // Transfer Docker Compose file to EC2 instance
-                    bat "scp -i ${keyfile} docker-compose.yml ${EC2_INSTANCE}:~/"
+                    sh "scp -i ${keyfile} docker-compose.yml ${EC2_INSTANCE}:~/"
 
                     // SSH into EC2 instance and run Docker commands
-                    bat """
+                    sh """
                     ssh -i ${keyfile} ${EC2_INSTANCE} << EOF
                     docker-compose down --timeout 30
                     docker-compose pull ${env.nisasalvia}/notes-app:latest
@@ -94,7 +94,7 @@ pipeline {
     post {
         always {
             echo 'Cleaning up'
-            bat 'del -f tfplan'
+            sh 'del -f tfplan'
         }
         success {
             echo 'Pipeline succeeded'
