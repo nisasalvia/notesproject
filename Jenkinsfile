@@ -118,7 +118,7 @@ pipeline {
     post {
         always {
             echo 'Cleaning up'
-            sh 'del -f tfplan'
+            sh 'rm -f tfplan'
         }
         success {
             echo 'Pipeline succeeded'
